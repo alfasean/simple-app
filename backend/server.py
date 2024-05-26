@@ -20,6 +20,19 @@ def create_account():
 
     return jsonify({'message': 'User created successfully!', 'users' : new_user}), 201
 
+
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    name = data.get('name')
+    password = data.get('password')
+    
+    for user in users:
+        if user['name'] == name and user['password'] == password:
+            return jsonify({'message': 'Login Success', 'user': user}), 200
+    
+    return jsonify({'error': 'name atau password salah'}), 401
+
 @app.route("/account/<user_id>", methods=["GET"]) 
 def get_account(user_id):
     for user in users:
